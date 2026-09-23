@@ -1,0 +1,13 @@
+{
+  "name": "teto-chat-app",
+  "version": "1.0.0",
+  "description": "TETO private chat app MVP",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

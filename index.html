@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TETO</title>
+    <meta name="theme-color" content="#071127" />
+    <meta name="description" content="TETO private chat app" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="assets/teto-icon.svg?v=3" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/teto-icon.svg?v=3" />
+    <link rel="stylesheet" href="styles.css?v=20260923-4" />
+  </head>
+  <body>
+    <div id="intro-overlay" class="intro-overlay" aria-live="polite">
+      <div class="intro-word" aria-label="TETO logo animation">
+        <span class="intro-letter">T</span>
+        <span class="intro-letter">E</span>
+        <span class="intro-letter">T</span>
+        <span class="intro-letter">O</span>
+      </div>
+    </div>
+
+    <div class="app-shell">
+      <div id="auth-screen" class="card auth-card">
+        <div class="auth-header">
+          <h1>TETO</h1>
+          <p>تواصل احترافي مع أصدقائك</p>
+        </div>
+
+        <div class="switcher">
+          <button class="tab active" data-view="login" type="button">تسجيل الدخول</button>
+          <button class="tab" data-view="register" type="button">إنشاء حساب</button>
+        </div>
+
+        <form id="login-form" class="auth-form active">
+          <label>
+            رقم الهاتف
+            <input type="tel" id="login-phone" placeholder="9665xxxxxx" required />
+          </label>
+          <label>
+            كلمة المرور
+            <input type="password" id="login-password" placeholder="كلمة المرور" required />
+          </label>
+          <button type="submit">دخول</button>
+        </form>
+
+        <form id="register-form" class="auth-form">
+          <label>
+            الاسم الكامل
+            <input type="text" id="register-name" placeholder="اسمك" required />
+          </label>
+          <label>
+            رقم الهاتف
+            <input type="tel" id="register-phone" placeholder="9665xxxxxx" required />
+          </label>
+          <label>
+            كلمة المرور
+            <input type="password" id="register-password" placeholder="اختر كلمة مرور" required />
+          </label>
+          <button type="submit">إنشاء الحساب</button>
+        </form>
+
+        <div id="otp-panel" class="auth-form otp-panel">
+          <label>
+            رمز التحقق
+            <input type="text" id="otp-code" maxlength="6" placeholder="أدخل الرمز المكون من 6 أرقام" />
+          </label>
+          <button id="verify-otp-btn" type="button">تأكيد الحساب</button>
+          <p class="otp-hint">سيظهر رمز التحقق الخاص بالحساب بعد التسجيل.</p>
+        </div>
+
+        <p id="auth-message" class="message-box"></p>
+      </div>
+
+      <div id="chat-screen" class="chat-screen hidden">
+        <aside class="sidebar">
+          <div class="profile-card">
+            <div class="avatar">T</div>
+            <div class="profile-text">
+              <strong id="profile-name">TETO</strong>
+              <span id="profile-status">متصل الآن</span>
+            </div>
+          </div>
+
+          <div class="sidebar-header">
+            <h2>TETO</h2>
+            <button id="logout-btn" class="logout-btn">خروج</button>
+          </div>
+
+          <nav class="app-nav" aria-label="التنقل الرئيسي">
+            <button class="nav-btn active" data-section="chats-section" type="button">الدردشات</button>
+            <button class="nav-btn" data-section="tools-section" type="button">جهات الاتصال والمجموعات</button>
+            <button class="nav-btn" data-section="settings-section" type="button">الإعدادات</button>
+          </nav>
+
+          <div id="chats-section" class="sidebar-section nav-section">
+            <h3>بحث</h3>
+            <div class="mini-form">
+              <input id="search-input" type="text" placeholder="ابحث عن اسم أو رقم" />
+            </div>
+            <div id="search-results" class="search-results"></div>
+            <h3>الدردشات</h3>
+            <div id="contact-list" class="contact-list"></div>
+            <h3>قائمة المجموعات</h3>
+            <div id="group-list" class="contact-list"></div>
+          </div>
+
+          <div id="tools-section" class="sidebar-section nav-section hidden">
+            <h3>إضافة صديق</h3>
+            <div class="mini-form">
+              <input id="add-contact-input" type="tel" placeholder="أدخل رقم الهاتف" />
+              <button id="add-contact-btn" type="button">إضافة</button>
+            </div>
+            <h3>المجموعات</h3>
+            <div class="mini-form group-form">
+              <input id="group-name-input" type="text" placeholder="اسم المجموعة" />
+              <select id="group-members" multiple size="4"></select>
+              <button id="create-group-btn" type="button">إنشاء مجموعة</button>
+            </div>
+          </div>
+
+          <div id="settings-section" class="sidebar-section nav-section hidden">
+            <h3>الحساب</h3>
+            <div class="mini-form settings-box">
+              <input id="status-input" type="text" placeholder="حالتك" />
+              <button id="save-status-btn" type="button">حفظ الحالة</button>
+            </div>
+          </div>
+
+          <div class="sidebar-section assistant-card">
+            <h3>مساعد TETO</h3>
+            <div id="assistant-messages" class="assistant-messages"><p>اسألني عن صياغة رسالة أو ترتيب أفكارك.</p></div>
+            <form id="assistant-form" class="mini-form">
+              <input id="assistant-input" type="text" placeholder="اكتب لـ TETO..." autocomplete="off" />
+              <button type="submit">اسأل</button>
+            </form>
+          </div>
+        </aside>
+
+        <main class="chat-panel">
+          <div class="chat-header">
+            <div>
+              <h3 id="chat-title">اختر محادثة</h3>
+              <span id="typing-indicator" class="typing-indicator" aria-live="polite"></span>
+            </div>
+            <div class="chat-header-actions">
+              <button id="profile-toggle-btn" class="ghost-btn" type="button">ملفي</button>
+              <button id="delete-chat-btn" class="ghost-btn danger-btn" type="button" title="حذف الدردشة">حذف الدردشة</button>
+            </div>
+          </div>
+
+          <div id="profile-panel" class="profile-panel hidden">
+            <div class="profile-panel-card">
+              <h4>إعدادات الحساب</h4>
+              <label>
+                الاسم
+                <input id="profile-name-input" type="text" placeholder="اسمك" />
+              </label>
+              <label>
+                الحالة
+                <input id="profile-status-input" type="text" placeholder="حالتك" />
+              </label>
+              <button id="save-profile-btn" type="button">حفظ</button>
+            </div>
+          </div>
+
+          <div id="messages" class="messages"></div>
+
+          <form id="message-form" class="composer">
+            <button id="voice-btn" class="voice-btn" type="button" aria-label="تسجيل رسالة صوتية" title="رسالة صوتية"><span class="voice-btn-icon" aria-hidden="true">⌁</span></button>
+            <input id="message-input" type="text" placeholder="اكتب رسالة..." autocomplete="off" />
+            <button type="submit">إرسال</button>
+          </form>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js?v=20260923-6"></script>
+  </body>
+</html>
